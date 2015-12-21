@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 322837a13a10a7cd4b83156f728821eced814b7f root <root@debian> 1447664104 +0800	clone: from https://github.com/yiisoft/yii2-app-advanced.git
+322837a13a10a7cd4b83156f728821eced814b7f 06c303b64a20fba8c5287b6426d81d0c54b79836 xiangyou <you.xiang@starlight-sms.com> 1450682891 +0800	commit: init
+06c303b64a20fba8c5287b6426d81d0c54b79836 f0b165ccd6afa856ad04a5df7802b9bdffbb26cc xiangyou <you.xiang@starlight-sms.com> 1450683856 +0800	pull origin master: Merge made by the 'recursive' strategy.
+f0b165ccd6afa856ad04a5df7802b9bdffbb26cc 607fa10cc2aa7a31b98105d68d44180a0b2d3c3e xiangyou <you.xiang@starlight-sms.com> 1450684414 +0800	commit: new

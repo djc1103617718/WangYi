@@ -1,0 +1,14 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	fetch = +refs/heads/*:refs/remotes/origin/*
+	url = https://github.com/yiisoft/yii2-app-advanced.git
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[remote "daniel"]
+	url = https://github.com/MarketPlaceDaniel/WangYi.git
+	fetch = +refs/heads/*:refs/remotes/daniel/*
