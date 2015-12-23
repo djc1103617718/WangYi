@@ -59,6 +59,9 @@
          return true;
      }
 
+     /**
+      * @return bool
+      */
      public function isManager()
      {
          $model = User::find()->where(['username' => $this->username])->andWhere(['status' => 1])->one();
@@ -69,6 +72,9 @@
          return false;
      }
 
+     /**
+      * @return bool
+      */
      public function whetherLoggedIn()
      {
          if (Yii::$app->session['isManager']) {

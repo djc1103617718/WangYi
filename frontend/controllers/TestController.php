@@ -42,6 +42,9 @@ class TestController extends Controller
         $this->trigger('GoodNight');
     }
 
+    /**
+     *
+     */
     public function actionStatic()
     {
         $test = new UserTest();

@@ -56,12 +56,4 @@ class UserController extends Controller
         return $this->redirect(['news/index']);
     }
 
-    public function actionIndex()
-    {
-        if ($click = Yii::$app->request->get('click')) {
-            $view = Yii::$app->view;
-            $view->params['click'] = $click;
-        }
-    }
-
 }

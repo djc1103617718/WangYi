@@ -48,6 +48,9 @@ class UserTest extends UserCommon
         ];
     }
 
+    /**
+     *
+     */
     public function attributeLabels()
     {
         ArrayHelper::merge(parent::attributeLabels(), [
@@ -55,6 +58,12 @@ class UserTest extends UserCommon
             'originalPassword' => Yii::t('app', '输入原有密码'),
         ]);
     }
+
+    /**
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
     public function validateOriginalPassword($attribute, $params)
     {
         $model = User::find()->where(['username' => Yii::$app->session['username']])->one();
@@ -64,10 +73,16 @@ class UserTest extends UserCommon
         $this->addError($attribute, 'The original password is error!');
     }
 
+    /**
+     * @param $parm
+     */
     public function say_hello($parm){
         echo "你应该会看到:".$parm->data.'<br>';
     }
 
+    /**
+     * @param $parm
+     */
     public function say_goodbye($parm){
         echo "你应该会看到:".$parm->data.'<br>';
     }
