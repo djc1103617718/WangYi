@@ -4,7 +4,8 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\News;
-use backend\models\searches\NewsSearch;
+use backend\models\NewsSearch;
+//use yii\web\Controller;
 use backend\libraries\base\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,10 @@ class NewsController extends Controller
      */
     public function actionIndex()
     {
+        if ($click = Yii::$app->request->get('click')) {
+            $view = Yii::$app->view;
+            $view->params['click'] = $click;
+        }
         $searchModel = new NewsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

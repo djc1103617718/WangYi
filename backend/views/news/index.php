@@ -26,12 +26,27 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'category_id',
+            [
+                'attribute' => 'categoryName',
+                'value' => function($model){
+                    return $model->category->name;
+                }
+            ],
             'title',
             'description',
             'content:ntext',
-            // 'created_at',
-            // 'updated_at',
+            [
+                'attribute' => 'created_at',
+                'value' => function($model){
+                    return date('Y-m-d H:i:s', $model->created_at);
+                }
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => function($model){
+                    return date('Y-m-d H:i:s', $model->updated_at);
+                }
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

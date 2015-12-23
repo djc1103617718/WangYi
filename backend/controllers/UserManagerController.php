@@ -3,21 +3,31 @@
 namespace backend\controllers;
 
 use Yii;
-//use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use common\models\Category as CategoryCommon;
-use backend\models\Category;
-use backend\models\CategorySearch;
-use yii\filters\VerbFilter;
+use backend\models\User;
+use backend\models\UserManagerSearch;
 use backend\libraries\base\Controller;
+use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * CategoryController implements the CRUD actions for CategoryModel model.
+ * UserManagerController implements the CRUD actions for User model.
  */
-class CategoryController extends Controller
+class UserManagerController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
+    }
+
     /**
-     * Lists all CategoryModel models.
+     * Lists all User models.
      * @return mixed
      */
     public function actionIndex()
@@ -26,7 +36,7 @@ class CategoryController extends Controller
             $view = Yii::$app->view;
             $view->params['click'] = $click;
         }
-        $searchModel = new CategorySearch();
+        $searchModel = new UserManagerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -36,7 +46,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a single CategoryModel model.
+     * Displays a single User model.
      * @param integer $id
      * @return mixed
      */
@@ -48,29 +58,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new CategoryModel model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Category();
-        $model->scenario = 'create';
-        $model->created_at = time();
-        $model->updated_at = time();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            $model->categoryArray = CategoryCommon::getCategoryList();
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing CategoryModel model.
+     * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -78,13 +66,11 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $model->updated_at = time();
-        $model->scenario = 'update';
 
+        $model->updated_at = time();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
-            $model->categoryArray = CategoryCommon::getCategoryList();
             return $this->render('update', [
                 'model' => $model,
             ]);
@@ -92,29 +78,30 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes an existing CategoryModel model.
+     * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
     {
-        $findModel = $this->findModel($id);
-        $findModel->delete();
+        $model = $this->findModel($id);
+        $model->status = 2;
+        $model->update();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the CategoryModel model based on its primary key value.
+     * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CategoryModel the loaded model
+     * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Category::findOne($id)) !== null) {
+        if (($model = User::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -4,49 +4,33 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\searches\ManagerSearch */
+/* @var $searchModel backend\models\UserManagerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Managers');
+$this->title = Yii::t('app', 'Users');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="manager-index">
+<div class="user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Manager'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'user_id',
-            [
-                'attribute' => 'username',
-                'value' => function($model){
-                    return $model->user->username;
-                }
-            ],
-            [
-                'attribute' => 'userStatus',
-                'value' => function($model){
-                    if ($model->user->status == 1) {
-                        return '合法';
-                    }
-                    return '冻结';
-                }
-            ],
+
+            'id',
+            'username',
+            'email:email',
             [
                 'attribute' => 'status',
-                'value' => function($model){
+                'value' => function ($model) {
                     if ($model->status == 1) {
-                        return '合法';
+                        return '合法用户';
                     }
-                    return '冻结';
+                    return '冻结用户';
                 }
             ],
             [

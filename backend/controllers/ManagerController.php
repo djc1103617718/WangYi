@@ -3,9 +3,11 @@
 namespace backend\controllers;
 
 use Yii;
+//use yii\web\Controller;
 use backend\models\Manager;
+use backend\models\ManagerForm;
 use backend\models\User;
-use backend\models\searches\ManagerSearch;
+use backend\models\ManagerSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use backend\libraries\base\Controller;
@@ -21,6 +23,10 @@ class ManagerController extends Controller
      */
     public function actionIndex()
     {
+        if ($click = Yii::$app->request->get('click')) {
+            $view = Yii::$app->view;
+            $view->params['click'] = $click;
+        }
         $searchModel = new ManagerSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -49,20 +55,15 @@ class ManagerController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Manager();
-        if ($_SERVER['REQUEST_METHOD']=="POST") {
-            $user_id = Yii::$app->request->post('user_id');
-            $userModel = User::findOne($user_id);
-            if ($userModel) {
-                $model->created_at = time();
-                $model->updated_at = time();
-                $model->user_id = $userModel->id;
-                if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
+        $model = new ManagerForm();
+        if ($model->load(Yii::$app->request->post())){
+            if ($model->createManager()) {
+                Yii::$app->session->setFlash('success', '新增管理员成功！');
+                return $this->redirect(['manager/index']);
+            } else {
+                Yii::$app->session->setFlash('error', '新增管理员失败，请重新添加！');
             }
         }
-
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -77,16 +78,20 @@ class ManagerController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $username = $model->getUsername($model->user_id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'username' => $username,
-            ]);
+        $model = new ManagerForm();
+        $model = $model->getModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->updateManager()) {
+                Yii::$app->session->setFlash('success', '修改管理员成功！');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', '修改管理员失败！');
+            }
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -97,7 +102,9 @@ class ManagerController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $model->status = 2;
+        $model->save();
 
         return $this->redirect(['index']);
     }
@@ -117,4 +124,6 @@ class ManagerController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
 }

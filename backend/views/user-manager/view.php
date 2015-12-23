@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Manager */
+/* @var $model backend\models\User */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Managers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Users'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="manager-view">
+<div class="user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,26 +29,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'username',
+            'email:email',
             [
-                'value' => $model->user->username,
-                'label' => 'Username',
-            ],
-            [
-                'label' => 'status',
+                'label' => '用户状态',
                 'value' => \yii\helpers\ArrayHelper::getValue($model, function($model){
                     if ($model->status == 1) {
-                        return '合法管理员';
-                    } else {
-                        return '权限冻结';
+                        return '合法用户';
                     }
+                    return '冻结用户';
                 })
             ],
             [
-                'label' => 'created_at',
+                'label' => '创建时间',
                 'value' => date('Y-m-d H:i:s', $model->created_at)
             ],
             [
-                'label' => 'updated_at',
+                'label' => '更新时间',
                 'value' => date('Y-m-d H:i:s', $model->updated_at)
             ],
         ],

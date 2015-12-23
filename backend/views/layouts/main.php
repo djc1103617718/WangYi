@@ -29,6 +29,13 @@ AppAsset::register($this);
     </head>
     <body>
 
+    <?php $navbar_nar = [
+        1 => "<a href = " . Url::to(['news/index', 'click' => 1]) . "> 新闻管理 </a>",
+        2 => "<a href = " . Url::to(['category/index', 'click' => 2]) . "> 新闻分类管理 </a>",
+        3 => "<a href = " . Url::to(['user-manager/index', 'click' => 3]) . "> 用户管理 </a>",
+        4 => "<a href = " . Url::to(['manager/index', 'click' => 4]) . "> 管理员管理 </a>",
+    ];
+    ?>
     <?php $this->beginBody() ?>
 
     <nav class="navbar navbar-inverse">
@@ -47,29 +54,25 @@ AppAsset::register($this);
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <?php
-                        $i = 0;
-                        foreach (Category::NavBarCategory() as $key => $value):?>
-                        <?php if ($i == 0) {
-                            echo "<li class='addclick active'><a href = " . Url::to(['show/index','NewsSearch[category_id]' => $key]) . "}> $value </a></li>";
-                        } else {
-                            //echo "<li class='addclick' data = " .$key. "  ><a href = '#'> $value <span class='sr-only'>(current)</span></a></li>";
-                            echo "<li class='addclick'><a href = " . Url::to(['show/index','NewsSearch[category_id]' => $key]) . "}> $value </a></li>";
-                        }
-                        $i++;
+                    <?php if (empty($this->params['click'])) : $this->params['click'] = null; endif ?>
+                    <?php $i = 1;foreach ($navbar_nar as $key => $value):?>
+                        <?php if (($i == 1 && empty($this->params['click'])) || $key == $this->params['click']) :
+                            echo "<li class='addclick active'>$value</li>";
+                        else :
+                            echo "<li class='addclick'>$value</li>";
+                        endif ;
+                        ++$i;
                         ?>
                     <?php endforeach ?>
+
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
+
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="addclick"><a href="<?= Url::to(['user/login']) ?>">登录</a></li>
-                    <li class="addclick"><a href="<?= Url::to(['user/signup']) ?>">注册</a></li>
-                    <li class="addclick"><a href="<?= Url::to(['user/logout']) ?>">退出</a></li>
+                    <?php if(Yii::$app->session['isManager']): ?>
+                        <li class="addclick"><a href="<?= Url::to(['user/logout']) ?>">退出</a></li>
+                    <?php else: ?>
+                        <li class="addclick"><a href="<?= Url::to(['user/login']) ?>">登录</a></li>
+                    <?php endif ?>
                     <!--<li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
                         <ul class="dropdown-menu">

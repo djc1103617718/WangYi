@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use common\models\Manager as ManagerCommon;
+use common\models\User;
 /**
  * This is the model class for table "wy_manager".
  *
@@ -14,16 +15,43 @@ use common\models\Manager as ManagerCommon;
  */
 class Manager extends ManagerCommon
 {
-    public function getUser()
+    /**
+     * @return array
+     */
+    public function attributeLabels()
     {
-        return $this->hasOne(UserCommon::className(),['id' => 'user_id']);
+        return [
+            'status' => 'Manager Status',
+        ];
     }
 
+    /**
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            ['user_id', 'required'],
+            ['user_id', 'unique', 'message' => '该用户已经是管理员'],
+        ];
+    }
+
+    /**
+     * @return $this|static
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(),['id' => 'user_id'])->select(['id', 'username', 'status']);
+    }
+
+    /**
+     * @param $user_id
+     * @return mixed
+     */
     public function getUsername($user_id)
     {
         $model = $this->findOne($user_id);
         $username = $model->user->username;
-        $arr[$user_id] = $username;
-        return $arr;
+        return $username;
     }
 }

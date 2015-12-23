@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\models\UserCommon;
 
 /* @var $this yii\web\View */
 /* @var $model backend\models\Manager */
@@ -13,10 +12,12 @@ use backend\models\UserCommon;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->textInput()->label('UserName'); ?>
+    <?= $form->field($model, 'username')->textInput(['readonly' => 'readonly'])->label('UserName'); ?>
+    <?= $form->field($model, 'status')->dropDownList($model::statusArray() , array('prompt' => '请选择管理员的权限状态'))->label('status'); ?>
+    <input type = "hidden" name = 'manager[id]' value = "<?= $model->id?>" />
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(Yii::t('app', 'Update'), ['class' =>'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
