@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
             'id',
             'name',
             'description',
@@ -41,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return date('Y-m-d H:i:s', $model->updated_at);
                 }
             ],
-
             ['class' => 'yii\grid\ActionColumn',
             'header' => 'Action',
             ],
