@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true, 'readonly' => 'readonly']) ?>
 
-    <?= $form->field($model, 'status')->dropDownList([1 => '合法用户', 2 => '非法用户'], ['prompt' => '请选择用户的当前状态']) ?>
+    <?= $form->field($model, 'status')->radioList([1 => '合法', 2 => '冻结']);?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Update'), ['class' => 'btn btn-primary']) ?>

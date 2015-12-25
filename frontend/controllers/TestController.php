@@ -45,13 +45,10 @@ class TestController extends Controller
     /**
      *
      */
-    public function actionStatic()
+    public function actionTry()
     {
-        $test = new UserTest();
-        echo $test->s();
-        $t = new UserTest();
-        echo $t->s();
-        echo $test->s();
+        UserTest::one();
+        echo '控制器了！';
     }
 
 

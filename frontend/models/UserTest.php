@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use common\models\User as UserCommon;
+use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "{{%user}}".
@@ -95,5 +96,30 @@ class UserTest extends UserCommon
         echo "<br/>";
     }
 
+    protected static function three()
+    {
+        $arr = [1,3,3,4,2,1,4,3,2,3,34,5];
+            foreach ($arr as $v) {
+                if ($v ==2) {
+                    throw new Exception('你太２了！');
+                }
+                echo $v . '<br/>';
+            }
 
+    }
+
+    protected static function two()
+    {
+        self::three();
+        echo '<br/>执行到第二层了!';
+    }
+
+    public static function one()
+    {
+        try {
+            self::two();
+        } catch (\Exception $e) {
+            echo '太２没办法！'. $e->getMessage();
+        }
+    }
 }

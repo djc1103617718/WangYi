@@ -81,14 +81,23 @@ class NewsSearch extends News
         $query->andFilterWhere([
             'id' => $this->id,
             'category_id' => $this->category_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            //'created_at' => $this->created_at,
+            //'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'content', $this->content])
             ->andFilterWhere(['like', 'wy_category.name', $this->categoryName]);
+
+        //datePicker
+        if ($this->updated_at != '') {
+            $query->andFilterWhere(['between', 'updated_at', strtotime($this->updated_at), strtotime($this->updated_at) + 24*3600]);
+        }
+
+        if ($this->created_at != '') {
+            $query->andFilterWhere(['between', 'created_at', strtotime($this->created_at), strtotime($this->created_at) + 24*3600]);
+        }
 
         return $dataProvider;
     }

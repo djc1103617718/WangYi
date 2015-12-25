@@ -55,13 +55,12 @@ AppAsset::register($this);
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <?php if (empty($this->params['click'])) : $this->params['click'] = null; endif ?>
-                    <?php $i = 1;foreach ($navbar_nar as $key => $value):?>
-                        <?php if (($i == 1 && empty($this->params['click'])) || $key == $this->params['click']) :
+                    <?php foreach ($navbar_nar as $key => $value):?>
+                        <?php if ($key == $this->params['click']) :
                             echo "<li class='addclick active'>$value</li>";
                         else :
                             echo "<li class='addclick'>$value</li>";
                         endif ;
-                        ++$i;
                         ?>
                     <?php endforeach ?>
 
